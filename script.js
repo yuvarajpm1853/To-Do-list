@@ -1,5 +1,5 @@
 
-let todo_list=[];
+let todo_list=JSON.parse(localStorage.getItem('todo_list'))||[];
 let displayHTML,html,task;
 
 //checks enter key is pressed 
@@ -29,13 +29,19 @@ function renderPage(){
     todo_list.forEach((todo_data,index)=>{
     const {name,dueDate}=todo_data;
     html+=`<div>${name} </div><div> ${dueDate}</div>
-        <button  class="red-button" onclick="todo_list.splice(${index},1);
-        document.querySelector('.displayTasks').innerHTML='';
-        html='';renderPage();">Delete</button>`;
+        <button  class="red-button" onclick="deleteTask(${index})">Delete</button>`;
         nameElement.value='';
         dueDateElem.value='';
     });
     displayTasksElem.innerHTML=html;
+    console.log(todo_list);
+    localStorage.setItem('todo_list',JSON.stringify(todo_list));
 }
 renderPage();
-
+// delete function
+function deleteTask(index){
+    todo_list.splice(index,1);
+    displayTasksElem.innerHTML='';
+    html='';
+    renderPage();
+}
